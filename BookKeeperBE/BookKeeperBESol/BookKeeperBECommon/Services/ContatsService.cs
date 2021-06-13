@@ -10,6 +10,7 @@ namespace BookKeeperBECommon.Services
 {
     public class ContatsService
     {
+<<<<<<< HEAD
         private InvoiceRepoMysql ContactRepo;
 
 
@@ -105,5 +106,7 @@ namespace BookKeeperBECommon.Services
             this.ContactRepo.Remove(userToDelete);
             return userToDeleteFound;
         }
+=======
+>>>>>>> 814bf976c4303d06e8292c8305e4368165ba4a16
     }
 }
