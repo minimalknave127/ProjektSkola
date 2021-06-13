@@ -28,7 +28,7 @@ namespace BookKeeperBECommon.BusinessObjects
         public string Description { get; set; }
  
         [Column("ACCOUNTING_CODE_ID")]
-        public AccountingCode Accounting { get; set; }
+        public User Accounting { get; set; }
   
         [Column("CONTACT_ID")]
         public Contact Contact { get; set; }

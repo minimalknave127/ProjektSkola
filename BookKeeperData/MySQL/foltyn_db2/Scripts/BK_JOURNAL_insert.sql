@@ -1,4 +1,4 @@
-USE foltyn_db2;
+USE 3a2_zykamatej_db1;
 
 
 -- Stav v pokladně a v bance na začátku roku

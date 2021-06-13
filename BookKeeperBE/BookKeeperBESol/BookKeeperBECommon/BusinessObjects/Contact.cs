@@ -48,7 +48,10 @@ namespace BookKeeperBECommon.BusinessObjects
         [Column("ADRESS_COUNTRY")]
         public string AddressCountry { get; set; }
 
-
+        public override string ToString()
+        {
+            return $"User: ID={this.ID} Username={this.Name}";
+        }
 
     }
 

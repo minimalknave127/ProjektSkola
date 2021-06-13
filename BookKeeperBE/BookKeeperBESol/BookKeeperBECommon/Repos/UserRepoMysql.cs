@@ -14,7 +14,7 @@ namespace BookKeeperBECommon.Repos
 
 
 
-    /// <summary>
+    /// <summary>D:\ZPR skola\ProjektSkola-main\BookKeeperBE\BookKeeperBESol\BookKeeperBECommon\Repos\UserRepoMysql.cs
     /// Exposes CRUD methods for the business object User.
     /// </summary>
     public class UserRepoMysql

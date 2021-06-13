@@ -41,7 +41,7 @@ namespace BookKeeperBECommon.BusinessObjects
         public string Description { get; set; }
 
         [Column("ACCOUNTING_CODE_ID")]
-        public AccountingCode AccountingCode { get; set; }
+        public User AccountingCode { get; set; }
 
 
         [Column("CASH_CREDIT")]
