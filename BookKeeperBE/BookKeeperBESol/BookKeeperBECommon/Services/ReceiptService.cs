@@ -31,26 +31,26 @@ namespace BookKeeperBECommon.Repos
 
         public IList<Receipt> FindListOfUsers(string usernamePattern)
         {
-            Receipt searchCriteriaAsUser = new Receipt { Username = $"*{usernamePattern}*" };
+            Receipt searchCriteriaAsUser = new Receipt { ReceiptNumber = $"*{usernamePattern}*" };
             //User searchCriteriaAsUser = new User { Username = usernamePattern };
             return this.userRepo.FindList(searchCriteriaAsUser);
         }
 
 
 
-        public IList<Receipt> SearchUsers(Receipt user)
+        public IList<Receipt> SearchUsers(Receipt receipt)
         {
-            if ((user.ID == 0) && (user.Username == null))
+            if ((receipt.ID == 0) && (receipt.ReceiptNumber == null))
             {
                 // Empty user-search criteria.
                 return GetListOfUsers();
             }
-            if ((user.ID == 0) && (user.Username != null))
+            if ((receipt.ID == 0) && (receipt.ReceiptNumber != null))
             {
                 // Only the Username property has been set.
-                return FindListOfUsers(user.Username);
+                return FindListOfUsers(receipt.ReceiptNumber);
             }
-            return this.userRepo.FindList(user);
+            return this.userRepo.FindList(receipt);
         }
 
 

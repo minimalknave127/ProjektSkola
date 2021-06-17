@@ -31,7 +31,7 @@ namespace BookKeeperBECommon.Repos
             using (var context = new MysqlContext())
             {
 
-                var query = from u in context.Users
+                var query = from u in context.AccountingCode
                             select u;
                 //var query = context.Users;
                 var users = query.ToList<AccountingCode>();
@@ -57,7 +57,7 @@ namespace BookKeeperBECommon.Repos
                 //            where u.Username == user.Username
                 //            select u;
 
-                IQueryable<AccountingCode> query = BuildQuery(context.Users, user);
+                IQueryable<AccountingCode> query = BuildQuery(context.AccountingCode, user);
 
                 var users = query.ToList<AccountingCode>();
                 return users;
@@ -81,7 +81,7 @@ namespace BookKeeperBECommon.Repos
                 //            where u.Username == user.Username
                 //            select u;
 
-                IQueryable<AccountingCode> query = BuildQuery(context.Users, user);
+                IQueryable<AccountingCode> query = BuildQuery(context.AccountingCode, user);
 
                 var exists = query.Any<AccountingCode>();
                 return exists;
@@ -105,7 +105,7 @@ namespace BookKeeperBECommon.Repos
             using (var context = new MysqlContext())
             {
 
-                return context.Users.Find(user.ID);
+                return context.AccountingCode.Find(user.ID);
 
             }
         }
@@ -139,7 +139,7 @@ namespace BookKeeperBECommon.Repos
             using (var context = new MysqlContext())
             {
 
-                context.Users.Add(user);
+                context.AccountingCode.Add(user);
 
                 context.SaveChanges();
 
@@ -166,17 +166,17 @@ namespace BookKeeperBECommon.Repos
 
 
 
-        private IQueryable<AccountingCode> BuildQuery(IQueryable<AccountingCode> query, AccountingCode user)
+        private IQueryable<AccountingCode> BuildQuery(IQueryable<AccountingCode> query, AccountingCode accountingCode)
         {
 
-            if (user.ID != 0)
+            if (accountingCode.ID != 0)
             {
-                query = query.Where(u => u.ID == user.ID);
+                query = query.Where(u => u.ID == accountingCode.ID);
             }
-            if (user.Username != null)
+            if (accountingCode.Name != null)
             {
                 //query = query.Where(u => u.Username == user.Username);
-                string username = user.Username;
+                string username = accountingCode.Name;
                 //if ( ! username.Contains('*') )
                 //{
                 //    query = query.Where(u => u.Username == username);
@@ -192,7 +192,7 @@ namespace BookKeeperBECommon.Repos
                 {
                     case 0:
                         // No asterisks (wildcards) at all.
-                        query = query.Where(u => u.Username == username);
+                        query = query.Where(u => u.Name == username);
                         break;
                     case 1:
                         // One asterisk.
@@ -205,7 +205,7 @@ namespace BookKeeperBECommon.Repos
                                 // Wildcard at the beginning of the search term.
                                 // WHERE USERNAME LIKE '%ba'
                                 string term = username.Substring(1);
-                                query = query.Where(u => u.Username.EndsWith(term));
+                                query = query.Where(u => u.Name.EndsWith(term));
                                 //query = query.Where(u => u.Username.EndsWith(term, StringComparison.OrdinalIgnoreCase));
                             }
                             else if (username[username.Length - 1] == '*')
@@ -213,7 +213,7 @@ namespace BookKeeperBECommon.Repos
                                 // Wildcard at the end of the search term.
                                 // WHERE USERNAME LIKE 'ba%'
                                 string term = username.Substring(0, username.Length - 1);
-                                query = query.Where(u => u.Username.StartsWith(term));
+                                query = query.Where(u => u.Name.StartsWith(term));
                                 //query = query.Where(u => u.Username.StartsWith(term, StringComparison.OrdinalIgnoreCase));
                             }
                             else
@@ -227,7 +227,7 @@ namespace BookKeeperBECommon.Repos
                                     throw new Exception($"This situation is not expected. The search term: {username}");
                                 }
                                 string[] terms = username.Split('*');
-                                query = query.Where(u => u.Username.StartsWith(terms[0]) && u.Username.EndsWith(terms[1]));
+                                query = query.Where(u => u.Name.StartsWith(terms[0]) && u.Name.EndsWith(terms[1]));
                                 //query = query.Where(u => u.Username.StartsWith(terms[0], StringComparison.OrdinalIgnoreCase) && u.Username.EndsWith(terms[1], StringComparison.OrdinalIgnoreCase));
                             }
                         }
@@ -243,7 +243,7 @@ namespace BookKeeperBECommon.Repos
                             // Expect one non-asterisk character at least.
                             // WHERE USERNAME LIKE '%ba%'
                             string term = username.Substring(1, username.Length - 2);
-                            query = query.Where(u => u.Username.Contains(term));
+                            query = query.Where(u => u.Name.Contains(term));
                             //query = query.Where(u => u.Username.Contains(term, StringComparison.OrdinalIgnoreCase));
                         }
                         break;

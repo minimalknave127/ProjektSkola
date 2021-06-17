@@ -19,8 +19,6 @@ namespace BookKeeperBECommon.Repos
     public class StatementRepoMysql
     {
 
-
-
         /// <summary>
         /// Gets a complete list of all users.
         /// </summary>
@@ -30,7 +28,7 @@ namespace BookKeeperBECommon.Repos
             using (var context = new MysqlContext())
             {
 
-                var query = from u in context.Users
+                var query = from u in context.Statement
                             select u;
                 //var query = context.Users;
                 var users = query.ToList<Statement>();
@@ -56,7 +54,7 @@ namespace BookKeeperBECommon.Repos
                 //            where u.Username == user.Username
                 //            select u;
 
-                IQueryable<Statement> query = BuildQuery(context.Users, user);
+                IQueryable<Statement> query = BuildQuery(context.Statement, user);
 
                 var users = query.ToList<Statement>();
                 return users;
@@ -80,7 +78,7 @@ namespace BookKeeperBECommon.Repos
                 //            where u.Username == user.Username
                 //            select u;
 
-                IQueryable<Statement> query = BuildQuery(context.Users, user);
+                IQueryable<Statement> query = BuildQuery(context.Statement, user);
 
                 var exists = query.Any<Statement>();
                 return exists;
@@ -93,18 +91,18 @@ namespace BookKeeperBECommon.Repos
         /// <summary>
         /// Tries to load data about a given user (according to their ID) and returns the information loaded.
         /// </summary>
-        /// <param name="user">Information identifying the user to be loaded (their ID).</param>
+        /// <param name="statement">Information identifying the user to be loaded (their ID).</param>
         /// <returns>Returns the requested user. If no such user exists, the method should throw an exception.</returns>
-        public Statement Load(Statement user)
+        public Statement Load(Statement statement)
         {
-            if (!Exists(user))
+            if (!Exists(statement))
             {
-                throw new Exception($"There's no such user with ID: {user.ID}");
+                throw new Exception($"There's no such user with ID: {statement.ID}");
             }
             using (var context = new MysqlContext())
             {
 
-                return context.Users.Find(user.ID);
+                return context.Statement.Find(statement.ID);
 
             }
         }
@@ -114,13 +112,13 @@ namespace BookKeeperBECommon.Repos
         /// <summary>
         /// Tries to store (persist) data about a given user.
         /// </summary>
-        /// <param name="user">User to be persisted in the repo.</param>
-        public void Store(Statement user)
+        /// <param name="statement">User to be persisted in the repo.</param>
+        public void Store(Statement statement)
         {
             using (var context = new MysqlContext())
             {
 
-                context.Entry(user).State = ((user.ID == 0) ? (EntityState.Added) : (EntityState.Modified));
+                context.Entry(statement).State = ((statement.ID == 0) ? (EntityState.Added) : (EntityState.Modified));
 
                 context.SaveChanges();
 
@@ -132,13 +130,13 @@ namespace BookKeeperBECommon.Repos
         /// <summary>
         /// Adds a new user to the repo.
         /// </summary>
-        /// <param name="user">User to add.</param>
-        public void Add(Statement user)
+        /// <param name="statement">User to add.</param>
+        public void Add(Statement statement)
         {
             using (var context = new MysqlContext())
             {
 
-                context.Users.Add(user);
+                context.Statement.Add(statement);
 
                 context.SaveChanges();
 
@@ -165,17 +163,17 @@ namespace BookKeeperBECommon.Repos
 
 
 
-        private IQueryable<Statement> BuildQuery(IQueryable<Statement> query, Statement user)
+        private IQueryable<Statement> BuildQuery(IQueryable<Statement> query, Statement statement)
         {
 
-            if (user.ID != 0)
+            if (statement.ID != 0)
             {
-                query = query.Where(u => u.ID == user.ID);
+                query = query.Where(u => u.ID == statement.ID);
             }
-            if (user.Username != null)
+            if (statement.StatementNumber != null)
             {
                 //query = query.Where(u => u.Username == user.Username);
-                string username = user.Username;
+                string username = statement.StatementNumber.ToString();
                 //if ( ! username.Contains('*') )
                 //{
                 //    query = query.Where(u => u.Username == username);
@@ -191,7 +189,7 @@ namespace BookKeeperBECommon.Repos
                 {
                     case 0:
                         // No asterisks (wildcards) at all.
-                        query = query.Where(u => u.Username == username);
+                        query = query.Where(u => u.StatementNumber == username);
                         break;
                     case 1:
                         // One asterisk.
@@ -204,7 +202,7 @@ namespace BookKeeperBECommon.Repos
                                 // Wildcard at the beginning of the search term.
                                 // WHERE USERNAME LIKE '%ba'
                                 string term = username.Substring(1);
-                                query = query.Where(u => u.Username.EndsWith(term));
+                                query = query.Where(u => u.StatementNumber.EndsWith(term));
                                 //query = query.Where(u => u.Username.EndsWith(term, StringComparison.OrdinalIgnoreCase));
                             }
                             else if (username[username.Length - 1] == '*')
@@ -212,7 +210,7 @@ namespace BookKeeperBECommon.Repos
                                 // Wildcard at the end of the search term.
                                 // WHERE USERNAME LIKE 'ba%'
                                 string term = username.Substring(0, username.Length - 1);
-                                query = query.Where(u => u.Username.StartsWith(term));
+                                query = query.Where(u => u.StatementNumber.StartsWith(term));
                                 //query = query.Where(u => u.Username.StartsWith(term, StringComparison.OrdinalIgnoreCase));
                             }
                             else
@@ -226,7 +224,7 @@ namespace BookKeeperBECommon.Repos
                                     throw new Exception($"This situation is not expected. The search term: {username}");
                                 }
                                 string[] terms = username.Split('*');
-                                query = query.Where(u => u.Username.StartsWith(terms[0]) && u.Username.EndsWith(terms[1]));
+                                query = query.Where(u => u.StatementNumber.StartsWith(terms[0]) && u.StatementNumber.EndsWith(terms[1]));
                                 //query = query.Where(u => u.Username.StartsWith(terms[0], StringComparison.OrdinalIgnoreCase) && u.Username.EndsWith(terms[1], StringComparison.OrdinalIgnoreCase));
                             }
                         }
@@ -242,7 +240,7 @@ namespace BookKeeperBECommon.Repos
                             // Expect one non-asterisk character at least.
                             // WHERE USERNAME LIKE '%ba%'
                             string term = username.Substring(1, username.Length - 2);
-                            query = query.Where(u => u.Username.Contains(term));
+                            query = query.Where(u => u.StatementNumber.Contains(term));
                             //query = query.Where(u => u.Username.Contains(term, StringComparison.OrdinalIgnoreCase));
                         }
                         break;

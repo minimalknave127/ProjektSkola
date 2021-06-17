@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using BookKeeperBECommon.BusinessObjects;
 using BookKeeperBECommon.Repos;
 
@@ -10,8 +8,8 @@ namespace BookKeeperBECommon.Services
 {
     public class ContatsService
     {
-<<<<<<< HEAD
-        private InvoiceRepoMysql ContactRepo;
+
+        private ContactRepoMysql ContactRepo;
 
 
 
@@ -32,7 +30,7 @@ namespace BookKeeperBECommon.Services
 
         public IList<Contact> FindListOfContact(string usernamePattern)
         {
-            Contact searchCriteriaAsUser = new Contact { Username = $"*{usernamePattern}*" };
+            Contact searchCriteriaAsUser = new Contact { Name = $"*{usernamePattern}*" };
             //User searchCriteriaAsUser = new User { Username = usernamePattern };
             return this.ContactRepo.FindList(searchCriteriaAsUser);
         }
@@ -41,15 +39,15 @@ namespace BookKeeperBECommon.Services
 
         public IList<Contact> SearchContact(Contact contact)
         {
-            if ((contact.ID == 0) && (contact.Username == null))
+            if ((contact.ID == 0) && (contact.Name == null))
             {
                 // Empty user-search criteria.
                 return GetListOfContact();
             }
-            if ((contact.ID == 0) && (contact.Username != null))
+            if ((contact.ID == 0) && (contact.Name != null))
             {
                 // Only the Username property has been set.
-                return FindListOfUsers(contact.Username);
+                return FindListOfContact(contact.Name);
             }
             return this.ContactRepo.FindList(contact);
         }
@@ -101,12 +99,11 @@ namespace BookKeeperBECommon.Services
         //public void DeleteUser(int id)
         public Contact DeleteContact(int id)
         {
-            Contact userToDelete = new Contact { ID = id };
-            Contact userToDeleteFound = this.ContactRepo.Load(userToDelete);
-            this.ContactRepo.Remove(userToDelete);
+            Contact ContactToDelete = new Contact { ID = id };
+            Contact userToDeleteFound = this.ContactRepo.Load(ContactToDelete);
+            this.ContactRepo.Remove(ContactToDelete);
             return userToDeleteFound;
         }
-=======
->>>>>>> 814bf976c4303d06e8292c8305e4368165ba4a16
+
     }
 }

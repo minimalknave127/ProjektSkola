@@ -18,7 +18,7 @@ namespace BookKeeperBECommon.Services
         public StatementService()
         {
             // Temporary solution.
-            this.StatementRepo = new StatementServiceRepoMysql();
+            this.StatementRepo = new StatementRepoMysql();
         }
 
 
@@ -32,7 +32,7 @@ namespace BookKeeperBECommon.Services
 
         public IList<Statement> FindListOfUsers(string usernamePattern)
         {
-            Statement searchCriteriaAsUser = new Statement { Username = $"*{usernamePattern}*" };
+            Statement searchCriteriaAsUser = new Statement { StatementNumber = $"*{usernamePattern}*" };
             //User searchCriteriaAsUser = new User { Username = usernamePattern };
             return this.StatementRepo.FindList(searchCriteriaAsUser);
         }
@@ -41,15 +41,15 @@ namespace BookKeeperBECommon.Services
 
         public IList<Statement> SearchUsers(Statement Statement)
         {
-            if ((Statement.ID == 0) && (Statement.Username == null))
+            if ((Statement.ID == 0) && (Statement.StatementNumber == null))
             {
                 // Empty user-search criteria.
                 return GetListOfUsers();
             }
-            if ((Statement.ID == 0) && (Statement.Username != null))
+            if ((Statement.ID == 0) && (Statement.StatementNumber != null))
             {
                 // Only the Username property has been set.
-                return FindListOfUsers(Statement.Username);
+                return FindListOfUsers(Statement.StatementNumber);
             }
             return this.StatementRepo.FindList(Statement);
         }

@@ -37,7 +37,7 @@ namespace BookKeeperBERest.Controllers
         [HttpGet]
         public IActionResult Get([FromQuery] Contact contact)
         {
-            IEnumerable<Contact> contats = _ContatsService.SearchContact(Contact);
+            IEnumerable<Contact> contats = _ContatsService.SearchContact(contact);
             // HTTP status code: 200 (OK)
             return Ok(contats);
             //return users;
@@ -105,7 +105,7 @@ namespace BookKeeperBERest.Controllers
             _logger.LogInformation(contact.ToString());
 
             // Add a new user.
-            User newContact = _ContatsService.SaveContact(contact);
+            Contact newContact = _ContatsService.SaveContact(contact);
 
             // HTTP status code: 201 (Created)
             return Created(this.Request.Path, newContact);
@@ -128,7 +128,7 @@ namespace BookKeeperBERest.Controllers
             }
 
             // Delete the user.
-            User ContactDeleted = _ContatsService.DeleteContact(id);
+            Contact ContactDeleted = _ContatsService.DeleteContact(id);
 
             // HTTP status code: 200 (OK)
             return Ok(ContactDeleted);

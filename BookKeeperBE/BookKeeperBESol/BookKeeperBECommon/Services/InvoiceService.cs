@@ -22,7 +22,7 @@ namespace BookKeeperBECommon.Repos
 
 
 
-        public IList<Invoice> GetListOfUsers()
+        public IList<Invoice> GetListOfInvoices()
         {
             return this.userRepo.GetList();
         }
@@ -31,26 +31,26 @@ namespace BookKeeperBECommon.Repos
 
         public IList<Invoice> FindListOfUsers(string usernamePattern)
         {
-            Invoice searchCriteriaAsUser = new Invoice { Username = $"*{usernamePattern}*" };
+            Invoice searchCriteriaAsUser = new Invoice { InvoiceNumber = $"*{usernamePattern}*" };
             //User searchCriteriaAsUser = new User { Username = usernamePattern };
             return this.userRepo.FindList(searchCriteriaAsUser);
         }
 
 
 
-        public IList<Invoice> SearchUsers(Invoice user)
+        public IList<Invoice> SearchUsers(Invoice invoice)
         {
-            if ((user.ID == 0) && (user.Username == null))
+            if ((invoice.ID == 0) && (invoice.InvoiceNumber == null))
             {
                 // Empty user-search criteria.
-                return GetListOfUsers();
+                return GetListOfInvoices();
             }
-            if ((user.ID == 0) && (user.Username != null))
+            if ((invoice.ID == 0) && (invoice.InvoiceNumber != null))
             {
                 // Only the Username property has been set.
-                return FindListOfUsers(user.Username);
+                return FindListOfUsers(invoice.InvoiceNumber);
             }
-            return this.userRepo.FindList(user);
+            return this.userRepo.FindList(invoice);
         }
 
 
