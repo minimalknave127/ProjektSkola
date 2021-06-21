@@ -173,7 +173,7 @@ namespace BookKeeperBECommon.Repos
             {
                 query = query.Where(u => u.ID == item.ID);
             }
-            if (item.Description != null)
+            if (item.Amount.ToString() != null)
             {
                 //query = query.Where(u => u.Username == user.Username);
                 string username = item.Description;

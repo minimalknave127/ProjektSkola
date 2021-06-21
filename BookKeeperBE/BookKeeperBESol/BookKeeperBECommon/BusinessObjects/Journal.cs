@@ -39,7 +39,7 @@ namespace BookKeeperBECommon.BusinessObjects
         [Column("DATE_TRANSACTION")]
         public DateTime? DateTransaction { get; set; }
 
-        [Column("DATE_TRANSACTION")]
+        [Column("DESRIPTION")]
         public string Description { get; set; }
 
         [Column("ACCOUNTING_CODE_ID")]

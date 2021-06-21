@@ -38,21 +38,21 @@ namespace BookKeeperBECommon.BusinessObjects
         [Column("WWW")]
         public string Www { get; set; }
 
-        [Column("ADRESS_STREET")]
+        [Column("ADDRESS_STREET")]
         public string AddressStreet { get; set; }
 
-        [Column("ADRESS_CITY")]
+        [Column("ADDRESS_CITY")]
         public string AddressCity { get; set; }
 
-        [Column("ADRESS_ZIP")]
+        [Column("ADDRESS_ZIP")]
         public string AddressZip { get; set; }
 
-        [Column("ADRESS_COUNTRY")]
+        [Column("ADDRESS_COUNTRY")]
         public string AddressCountry { get; set; }
 
         public override string ToString()
         {
-            return $"User: ID={this.ID} Username={this.Name}";
+            return $"Contact: ID={this.ID} Name={this.Name}";
         }
 
     }
